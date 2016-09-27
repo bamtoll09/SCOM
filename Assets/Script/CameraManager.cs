@@ -1,24 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[System.Serializable]
+public class Boundary
+{
+    public float xMin, xMax, zMin, zMax;
+}
+
 public class CameraManager : MonoBehaviour {
 
+    public Boundary boundary;
     public float mouseSensitivity;
+    public float zoomSensitivity;
+    public float maxZoom;
+    public float minZoom;
 
     Vector3 movement;
+    float yValue;
+    float moveX, moveY, moveZ;
 
     void Start()
     {
-
+        moveX = moveY = moveZ = 0f;
     }
 
     void Update()
     {
+        moveY = Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity * Time.deltaTime;
+
         if (Input.GetMouseButton(1))
         {
-            movement = new Vector3(Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime, 0.0f, Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime);
-            this.transform.position = this.transform.position - movement;
+            moveX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+            moveZ = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
         }
+
+        movement = new Vector3(moveX, moveY, moveZ);
+
+        movement = this.transform.position - movement;
+
+        this.transform.position = new Vector3
+        (
+            Mathf.Clamp(movement.x, boundary.xMin, boundary.xMax),
+            Mathf.Clamp(movement.y, minZoom, maxZoom),
+            Mathf.Clamp(movement.z, boundary.zMin, boundary.zMax)
+        );
     }
 
     // 인터넷 소스
