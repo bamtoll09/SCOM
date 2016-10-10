@@ -49,6 +49,7 @@
      <Compile Include="Assets\Script\MapMaker.cs" />
      <Compile Include="Assets\Script\MapManager.cs" />
      <Compile Include="Assets\Script\PlayerController.cs" />
+     <Compile Include="Assets\Script\TileTouch.cs" />
      <Compile Include="Assets\Script\TouchEvent.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
