@@ -28,7 +28,7 @@ public class CameraManager : MonoBehaviour {
     {
         moveY = Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity * Time.deltaTime;
 
-        if (Input.GetMouseButton(1))
+        if (!Input.GetMouseButton(0) && Input.GetMouseButton(1))
         {
             moveX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             moveZ = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;

@@ -4,38 +4,36 @@ using System.Collections.Generic;
 
 public class TileTouch : MonoBehaviour {
 
-    public Camera worldCamera;
-    public BoxCollider2D boxCollider;
-    public GameObject player;
-    public GameObject tile;
-    List<BoxCollider2D> collider = new List<BoxCollider2D>();
-    Transform trans;
+	public Sprite tile;
+	public Sprite tile_onMouse;
+
+	RaycastHit hit;
+	SpriteRenderer sr = null;
 
 	// Use this for initialization
 	void Start () {
-        for (int i=0; i<tile.GetComponents<BoxCollider2D>().Length; i++)
-        {
-            collider.Add(tile.GetComponents<BoxCollider2D>()[i]);
-        }
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Input.GetMouseButton(0))
+		if (Input.GetMouseButton(0))
         {
-            //print(Input.mousePosition.x + ", " + Input.mousePosition.y);
-            //Vector3 asdf = Input.mousePosition;
-            //asdf.z = 7.0f;
-            //print(Camera.main.ScreenToWorldPoint(asdf));
-            //player.transform.position = Camera.main.ScreenToWorldPoint(asdf);
-            //player.transform.LookAt(Camera.main.transform);
+			if (Physics.Raycast(ray, out hit)) // 충돌 했을 때(true, false) 값을 hit에 넣어줌
+			{
+				Debug.Log(hit.collider.name);
+			}
+		}
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            hit.transform.LookAt(Camera.main.transform);
-            
-        }
+		if (Physics.Raycast(ray, out hit)) // 충돌 했을 때(true, false) 값을 hit에 넣어줌
+		{
+			if (sr != null)
+				sr.sprite = tile;
 
+			sr = hit.transform.GetComponent<SpriteRenderer>();
+			sr.sprite = tile_onMouse;
+		}
     }
 }
